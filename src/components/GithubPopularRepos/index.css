@@ -1,0 +1,38 @@
+/* Write your CSS here */
+.popular-main-heading {
+  font-family: 'Lobster';
+  color: #0f172a;
+  text-align: center;
+}
+
+.language-filter-container {
+  list-style-type: none;
+  display: flex;
+  justify-content: center;
+  margin-top: 35px;
+  margin-right: 20px;
+}
+
+.three-dots-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.language-list-container {
+  list-style-type: none;
+  width: 1000px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.language-flex-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.failure-img {
+  height: 60vh;
+}

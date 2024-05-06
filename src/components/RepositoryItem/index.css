@@ -1,0 +1,39 @@
+.avatar-image {
+  height: 100px;
+}
+
+.list-item {
+  background-color: #f8f8ff;
+  border-radius: 10px;
+  width: 250px;
+  margin-right: 20px;
+  margin-bottom: 20px;
+  text-align: center;
+  padding: 15px;
+}
+
+.details-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-left: 17%;
+}
+
+.logo-img {
+  height: 15px;
+  margin-right: 5px;
+}
+
+.name {
+  font-family: 'Roboto';
+  color: #e73959;
+  font-weight: bold;
+}
+
+.count-content {
+  margin: 0px;
+  font-family: 'Roboto';
+  font-size: 15px;
+  color: #1e293b;
+  margin-bottom: 10px;
+}

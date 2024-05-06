@@ -1,0 +1,16 @@
+.language-btn {
+  background-color: transparent;
+  border: none;
+}
+
+.language-btn-container {
+  margin-right: 30px;
+}
+
+.active-btn {
+  color: #0284c7;
+  border: 2px solid #0284c7;
+  border-radius: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+}

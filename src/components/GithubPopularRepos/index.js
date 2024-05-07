@@ -14,12 +14,18 @@ const languageFiltersData = [
 ]
 
 // Write your code here
+const apiStatusConstants = {
+  initial: 'INITIAL',
+  success: 'SUCCESS',
+  failure: 'FAILURE',
+  inProgress: 'IN_PROGRESS',
+}
 
 class GithubPopularRepos extends Component {
   state = {
     languageList: [],
     activeTab: languageFiltersData[0].id,
-    isFetch: false,
+    apiStatus: apiStatusConstants.initial,
   }
 
   componentDidMount() {
@@ -28,16 +34,12 @@ class GithubPopularRepos extends Component {
 
   getLanguageApi = async () => {
     this.setState({
-      isFetch: true,
+      apiStatus: apiStatusConstants.inProgress,
     })
     const {activeTab} = this.state
-    const githubReposApiUrl = `https://apis.ccbp.in/popular-repos?language=${activeTab}`
+    const apiUrl = `https://apis.ccbp.in/popular-repos?language=${activeTab}`
 
-    // console.log(url)
-    const options = {
-      method: 'GET',
-    }
-    const response = await fetch(githubReposApiUrl, options)
+    const response = await fetch(apiUrl)
     if (response.ok === true) {
       const data = await response.json()
       console.log(data)
@@ -51,8 +53,10 @@ class GithubPopularRepos extends Component {
       }))
       this.setState({
         languageList: updatedData,
-        isFetch: false,
+        apiStatus: apiStatusConstants.success,
       })
+    } else {
+      this.setState({apiStatus: apiStatusConstants.failure})
     }
   }
 
@@ -62,36 +66,38 @@ class GithubPopularRepos extends Component {
 
   renderLoading = () => (
     <div className="three-dots-container" data-testid="loader">
-      <Loader type="ThreeDots" color="#0284c7" height={50} width={50} />
+      <Loader type="ThreeDots" color="#0284c7" height={80} width={80} />
+    </div>
+  )
+
+  renderFailure = () => (
+    <div>
+      <img
+        src="https://assets.ccbp.in/frontend/react-js/api-failure-view.png"
+        alt="failure-view"
+        className="failure-img"
+      />
+      <h1>Something Went Wrong</h1>
     </div>
   )
 
   renderLanguageList = () => {
     const {languageList} = this.state
-    console.log(languageList.length)
+
     return (
       <div className="language-flex-container">
-        {languageList.length === 0 ? (
-          <div>
-            <img
-              src="https://assets.ccbp.in/frontend/react-js/api-failure-view.png"
-              alt="failure-view"
-              className="failure-img"
-            />
-          </div>
-        ) : (
-          <ul className="language-list-container">
-            {languageList.map(eachList => (
-              <RepositoryItem listDetails={eachList} key={eachList.id} />
-            ))}
-          </ul>
-        )}
+        <ul className="language-list-container">
+          {languageList.map(eachList => (
+            <RepositoryItem listDetails={eachList} key={eachList.id} />
+          ))}
+        </ul>
       </div>
     )
   }
 
-  render() {
-    const {activeTab, isFetch} = this.state
+  renderPopularHeader = () => {
+    const {activeTab} = this.state
+
     return (
       <>
         <div>
@@ -107,7 +113,29 @@ class GithubPopularRepos extends Component {
             />
           ))}
         </ul>
-        {isFetch ? this.renderLoading() : this.renderLanguageList()}
+      </>
+    )
+  }
+
+  renderRepositories = () => {
+    const {apiStatus} = this.state
+    switch (apiStatus) {
+      case apiStatusConstants.success:
+        return this.renderLanguageList()
+      case apiStatusConstants.failure:
+        return this.renderFailure()
+      case apiStatusConstants.inProgress:
+        return this.renderLoading()
+      default:
+        return null
+    }
+  }
+
+  render() {
+    return (
+      <>
+        {this.renderPopularHeader()}
+        {this.renderRepositories()}
       </>
     )
   }
